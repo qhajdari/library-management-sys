@@ -25,7 +25,7 @@ describe('Library Class Tests', () => {
         library.addBook("Gjenerali i ushtrise se vdekur", "Ismail Kadare", "123456789", 5);
         expect(() => {
             library.addBook("Another Book", "Another Author", "123456789", 3);
-        }).toThrow('A book with this ISBN already exist.');
+        }).toThrow('Already exists with the same ISBN.');
     });
 
     test('Throw an error when book data is missing', () => {
