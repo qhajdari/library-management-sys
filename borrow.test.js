@@ -10,9 +10,14 @@ describe('Borrow and Return System Tests', () => {
         userManager = new UserManager();
         borrowSystem = new BorrowSystem(library, userManager);
 
-        // Add a book and register a user
+        // Add a book to the library
         library.addBook("Ana Karenina", "L.Tolstoi", "123456", 3);
+
+        // Register a user
         userManager.registerUser("Qendresa", "qendresa@example.com", "user1");
+        userManager.registerUser("Qendresa222", "qendresa222@example.com", "user2");
+        userManager.registerUser("Qendresa333", "qendresa333@example.com", "user3");
+        userManager.registerUser("Qendresa444", "qendresa444@example.com", "user4");
     });
 
     test('Should allow a user to borrow a book if there are copies available', () => {
