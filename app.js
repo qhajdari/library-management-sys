@@ -1,6 +1,9 @@
 const Library = require('./library'); // Import Library Class
+const UserManager = require('./user'); // Import User Class
 
 const library = new Library(); // Create a library instance
+const userManager = new UserManager();
+
 
 // Add new book
 library.addBook("1984", "George Orwell", "123456", 3);
@@ -16,6 +19,21 @@ console.log(library.getBookByISBN("123456")); // Return copies to 5
 library.deleteBook("123456");
 // Print deleted book by ISBN
 console.log(library.getBookByISBN("123456")); // Return null
+
+
+//GetUserById
+userManager.registerUser("Qendresa", "qendresa@example.com", "user1");
+console.log(userManager.getUserById("user1"));
+
+//UpdateUserEmail
+userManager.updateUserEmail("user1", "qendresahajdari@exaple.com", "user1");
+console.log(userManager.getUserById("user1"));
+
+//
+
+
+
+
 
 
 
