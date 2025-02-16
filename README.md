@@ -15,15 +15,15 @@ This project is a simple book management system using **JavaScript** by using **
 - **User Management(user.js)**
     - Register a user 
     - Update user
-**Borrowing and Returning Books(borrow.js)**
+- **Borrowing and Returning Books(borrow.js)**
     - Borrow a book
     - Return a book
-**Reporting(report.js)**
+- **Reporting(report.js)**
     - List all available books
     - List all borrowed books
 
 # **TDD Process (Red, Green, Refactor)**
-**Book Management**
+## **Book Management**
 ### **Red Phase - Write a failing test for 'addBook()'**
 First, we write a test that checks if a book can be added and retrieved by ISBN. Since `addBook()` is not implemented yet, this test will fail. 
 
@@ -40,9 +40,11 @@ const Library = require('./library');
         });
     });
 
-This test fails because addBook() is not implemented yet. 
+//This test fails because addBook() is not implemented yet. 
+```
 
-## **Green Phase - Implement addBook()**
+### **Green Phase - Implement addBook()**
+```javascript
 class Library {
     constructor() {
         this.books = {};
@@ -59,9 +61,11 @@ class Library {
 
 module.exports = Library;
 
-Now the tests pass successfully. 
+//Now the tests pass successfully. 
+```
 
 ### **Refactor Phase - Improve the code** 
+```javascript
 addBook(title, author, isbn, copies) {
         if (!title || !author || !isbn || !copies) {
             throw new Error('All fields are required.');
@@ -82,8 +86,8 @@ addBook(title, author, isbn, copies) {
 npm test
 ```
 
-## **This project follows the TDD methodology, ensuring that all functionalities are tested before implementation.**
-## **GitHub Actions are set up for Continuous Integration (CI), automatically running tests on every push or pull request.**
-## **Future improvements may include:**
+**This project follows the TDD methodology, ensuring that all functionalities are tested before implementation.**
+**GitHub Actions are set up for Continuous Integration (CI), automatically running tests on every push or pull request.**
+**Future improvements may include:**
 - Tracking overdue books
 - Adding a REST API for better accessibility
