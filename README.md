@@ -72,7 +72,7 @@ addBook(title, author, isbn, copies) {
         this.books[isbn] = { title, author, isbn, copies };
     }
 
-
+```
 
 ## How to run the tests?
 1. Make sure you have **Node.js** and **Jest** installed
@@ -80,10 +80,10 @@ addBook(title, author, isbn, copies) {
 
 ```bash
 npm test
+```
 
-
-This project follows the TDD methodology, ensuring that all functionalities are tested before implementation.
-GitHub Actions are set up for Continuous Integration (CI), automatically running tests on every push or pull request.
-Future improvements may include:
+## **This project follows the TDD methodology, ensuring that all functionalities are tested before implementation.**
+## **GitHub Actions are set up for Continuous Integration (CI), automatically running tests on every push or pull request.**
+## **Future improvements may include:**
 - Tracking overdue books
 - Adding a REST API for better accessibility
