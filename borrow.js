@@ -36,8 +36,12 @@ class BorrowSystem {
             throw new Error('This book has not been borrowed by this user.');
         }
 
-        this.borrowedBooks[userId] = this.borrowedBooks[userId].filter(bookIsbn => bookIsbn !== isbn);
-        this.library.getBookByISBN(isbn).copies += 1;
+        tthis.borrowedBooks[userId] = this.borrowedBooks[userId].filter(book => book !== isbn);
+    
+        const book = this.library.getBookByISBN(isbn);
+        if (book) {
+            book.copies += 1;
+        }
     }
 
     getBorrowedBooks(userId) {

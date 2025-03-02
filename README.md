@@ -283,7 +283,55 @@ In borrow.js, let's improve it to ensure accurate validations.
         this.borrowedBooks[userId].push(isbn);
         book.copies -= 1;
     }
+
+```
+
+### **Red Phase - Failed test for 'returnBook()'**
+This test will fail because returnBook() is not yet implemented! 
+
+```javascript
+
+ test('Must record the return of a book and update available copies', () => {
+        borrowSystem.borrowBook("user1", "123456");
+        borrowSystem.returnBook("user1", "123456");
+
+        expect(borrowSystem.getBorrowedBooks("user1")).not.toContain("123456");
+    });
+
+```
+
+### **Green Phase - Implement returnBook()**
+In borrow.js, we add this method to pass the test
+
+```javascript
+returnBook(userId, isbn) {
+        if (!this.borrowedBooks[userId] || !this.borrowedBooks[userId].includes(isbn)) {
+            throw new Error('This book has not been borrowed by this user.');
+        }
+
+        this.borrowedBooks[userId] = this.borrowedBooks[userId].filter(bookIsbn => bookIsbn !== isbn);
+        this.library.getBookByISBN(isbn).copies += 1;
+    }
+
+```
+
+### **Refactor Phase - Improvement of returnBook()**
+In borrow.js, let's improve it to ensure accurate validations.
+
+```javascript
+returnBook(userId, isbn) {
+        if (!this.borrowedBooks[userId] || !this.borrowedBooks[userId].includes(isbn)) {
+            throw new Error('This book has not been borrowed by this user.');
+        }
+
+        this.borrowedBooks[userId] = this.borrowedBooks[userId].filter(book => book !== isbn);
     
+        const book = this.library.getBookByISBN(isbn);
+        if (book) {
+            book.copies += 1;
+        }
+    }
+
 ```
 
 
