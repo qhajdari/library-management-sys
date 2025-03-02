@@ -335,6 +335,77 @@ returnBook(userId, isbn) {
 ```
 
 
+## **Reporting**
+### **Red Phase - Failed test for 'listAllBooks()'**
+This test will fail because listAllBooks() is not yet implemented! 
+
+```javascript
+
+const Library = require('./library');
+const UserManager = require('./user');
+const BorrowSystem = require('./borrow');
+const ReportSystem = require('./report');
+
+describe('Report System Tests', () => {
+    let library, userManager, borrowSystem, reportSystem;
+
+    beforeEach(() => {
+        library = new Library();
+        userManager = new UserManager();
+        borrowSystem = new BorrowSystem(library, userManager);
+        reportSystem = new ReportSystem(library, borrowSystem);
+
+        // Add books to the library
+        library.addBook("Ferma e Kafsheve", "George Orwell", "123456", 3);
+        library.addBook("1984", "George Orwell", "654321", 2);
+
+        // Register users
+        userManager.registerUser("Qendresa", "qendresahajdari@example.com", "user1");
+        userManager.registerUser("Bob", "bob@example.com", "user2");
+
+        // Borrow some books
+        borrowSystem.borrowBook("user1", "123456");
+        borrowSystem.borrowBook("user2", "654321");
+    });
+
+    test('should lists all books in the system', () => {
+        expect(reportSystem.listAllBooks()).toEqual([
+            { title: "Ferma e Kafsheve", author: "George Orwell", isbn: "123456", copies: 2 },
+            { title: "1984", author: "George Orwell", isbn: "654321", copies: 1 }
+        ]);
+    });
+
+});
+
+```
+
+### **Green Phase - Implement listAllBookds()**
+In report.js, we add this method to pass the test
+
+```javascript
+
+class ReportSystem {
+    constructor(library, borrowSystem) {
+        this.library = library;
+        this.borrowSystem = borrowSystem;
+    }
+
+    listAllBooks() {
+        return Object.values(this.library.books);
+    }
+
+}
+
+```
+
+### **Refactor Phase - Improvement of listAllBooks()**
+In report.js, let's improve it to ensure accurate validations.
+
+```javascript
+
+```
+
+
 
 ## How to run the tests?
 1. Make sure you have **Node.js** and **Jest** installed

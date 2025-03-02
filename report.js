@@ -5,8 +5,14 @@ class ReportSystem {
     }
 
     listAllBooks() {
-        return Object.values(this.library.books);
+        return Object.values(this.library.books).map(book => ({
+            title: book.title,
+            author: book.author,
+            isbn: book.isbn,
+            copies: book.copies
+        }));
     }
+    
 
     listAllBorrowedBooks() {
         return this.borrowSystem.borrowedBooks;
