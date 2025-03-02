@@ -24,8 +24,8 @@ This project is a simple book management system using **JavaScript** by using **
 
 # **TDD Process (Red, Green, Refactor)**
 ## **Book Management**
-### **Red Phase - Write a failing test for 'addBook()'**
-First, we write a test that checks if a book can be added and retrieved by ISBN. Since `addBook()` is not implemented yet, this test will fail. 
+### **Red Phase - Failed test for 'addBook()'**
+First, I write a test that checks if a book can be added and retrieved by ISBN. Since `addBook()` is not implemented yet, this test will fail. 
 
 ```javascript
 const Library = require('./library'); 
@@ -77,6 +77,112 @@ addBook(title, author, isbn, copies) {
     }
 
 ```
+
+
+## **User Management**
+### **Red Phase - Failed test for 'userManager()'**
+This test will fail because registerUser() is not yet implemented! 
+
+```javascript
+const UserManager = require('../src/user');
+    test('Need to register a new user and get with ID', () => {
+        userManager.registerUser("Qendresa Hajdari", "qendresa@example.com", "user1");
+
+        expect(userManager.getUserById("user1")).toEqual({
+            name: "Qendresa Hajdari",
+            email: "qendresa@example.com",
+            userId: "user1"
+        });
+    });
+```
+
+### **Green Phase - Implement registerUser()**
+In user.js, we add a basic implementation for registerUser(). The test should now pass successfully.
+
+```javascript
+class UserManager {
+    constructor() {
+        this.users = {};
+    }
+
+    registerUser(name, email, userId) {
+         this.users[userId] = { name, email, userId };
+    }
+
+    getUserById(userId) {
+        return this.users[userId] || null;
+    }
+}
+```
+
+### **Refactor Phase - Improve the code**
+Now let's improve registerUser() by adding validations to avoid registering invalid data:
+
+```javascript
+class UserManager {
+    constructor() {
+        this.users = {};
+    }
+
+    registerUser(name, email, userId) {
+        if (!name || !email || !userId) {
+            throw new Error('All fields are required.');
+        }
+        if (this.users[userId]) {
+            throw new Error('This user ID already exist.');
+        }
+        this.users[userId] = { name, email, userId };
+    }
+
+    getUserById(userId) {
+        return this.users[userId] || null;
+    }
+}
+```
+### Red Phase – The first test that fails
+In user.test.js, a test is added to update a user's email. However, this test will fail because updateUserEmail() is not yet implemented!
+
+```javascript
+const UserManager = require('../src/user');
+
+ test('Need to update user email', () => {
+        userManager.registerUser("Qendresa Hajdari", "qendresa@example.com", "user1");
+        userManager.updateUserEmail("user1", "qendresahajdari@example.com");
+
+        expect(userManager.getUserById("user1").email).toBe("qendresahajdari@example.com");
+    });
+```
+### **Green Phase - Implement updateUserEmail()**
+In user.js, we add this method to pass the test
+
+```javascript
+
+updateUserEmail(userId, newEmail) {
+    if (!this.users[userId]) {
+        throw new Error('User does not exist.');
+    }
+    this.users[userId].email = newEmail;
+}
+
+```
+
+### **Refactor Phase - Improvement of updateUserEmail()**
+In user.js, let's improve it to ensure accurate validations.
+
+```javascript
+
+updateUserEmail(userId, newEmail) {
+    if (!this.users[userId]) {
+        throw new Error('User does not exist.');
+    }
+    if (!newEmail.includes("@")) {
+        throw new Error('Invalid email format.');
+    }
+    this.users[userId].email = newEmail;
+}
+
+```
+
 
 ## How to run the tests?
 1. Make sure you have **Node.js** and **Jest** installed

@@ -21,8 +21,12 @@ class UserManager {
         if (!this.users[userId]) {
             throw new Error('User does not exist.');
         }
+        if (!newEmail.includes("@")) {
+            throw new Error('Invalid email format.');
+        }
         this.users[userId].email = newEmail;
     }
+    
 }
 
 module.exports = UserManager;
