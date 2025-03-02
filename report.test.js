@@ -32,10 +32,23 @@ describe('Report System Tests', () => {
         ]);
     });
 
-    test('should lists all books borrowed by all users', () => {
-        expect(reportSystem.listAllBorrowedBooks()).toEqual({
-            "user1": ["123456"],
-            "user2": ["654321"]
-        });
+    test('should list all books borrowed by all users', () => {
+        expect(reportSystem.listAllBorrowedBooks()).toEqual([
+            { 
+                title: "Ferma e Kafsheve", 
+                author: "George Orwell", 
+                isbn: "123456", 
+                borrower: "user1", 
+                dueDate: expect.any(String) // or expect.any(Date) base in implementation
+            },
+            { 
+                title: "1984", 
+                author: "George Orwell", 
+                isbn: "654321", 
+                borrower: "user2", 
+                dueDate: expect.any(String)
+            }
+        ]);
     });
+    
 });
