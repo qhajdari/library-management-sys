@@ -403,6 +403,15 @@ In report.js, let's improve it to ensure accurate validations.
 
 ```javascript
 
+ listAllBooks() {
+        return Object.values(this.library.books).map(book => ({
+            title: book.title,
+            author: book.author,
+            isbn: book.isbn,
+            copies: book.copies
+        }));
+    }
+    
 ```
 
 
