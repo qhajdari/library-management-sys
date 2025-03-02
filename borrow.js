@@ -23,6 +23,10 @@ class BorrowSystem {
             this.borrowedBooks[userId] = [];
         }
 
+        if (this.borrowedBooks[userId].includes(isbn)) {
+            throw new Error('User has already borrowed this book.');
+        }
+    
         this.borrowedBooks[userId].push(isbn);
         book.copies -= 1;
     }

@@ -139,7 +139,7 @@ class UserManager {
     }
 }
 ```
-### Red Phase – The first test that fails
+### Red Phase – Failed test for updateUserEmail()
 In user.test.js, a test is added to update a user's email. However, this test will fail because updateUserEmail() is not yet implemented!
 
 ```javascript
@@ -182,6 +182,110 @@ updateUserEmail(userId, newEmail) {
 }
 
 ```
+
+
+## **Borrowing and Returning Books**
+### **Red Phase - Failed test for 'borrowBook()'**
+This test will fail because borrowBook() is not yet implemented! 
+
+```javascript
+const Library = require('./library');
+const UserManager = require('./user');
+const BorrowSystem = require('./borrow');
+
+describe('Borrow and Return System Tests', () => {
+    let library, userManager, borrowSystem;
+
+    beforeEach(() => {
+        library = new Library();
+        userManager = new UserManager();
+        borrowSystem = new BorrowSystem(library, userManager);
+
+        // Add a book to the library
+        library.addBook("Ana Karenina", "L.Tolstoi", "123456", 3);
+
+        // Register a user
+        userManager.registerUser("Qendresa", "qendresa@example.com", "user1");
+    });
+
+    test('Should allow a user to borrow a book if there are copies available', () => {
+        borrowSystem.borrowBook("user1", "123456");
+        expect(borrowSystem.getBorrowedBooks("user1")).toContain("123456");
+    });
+});
+
+```
+### **Green Phase - Implement borrowBook()**
+In borrow.js, we add this method to pass the test
+
+```javascript
+class BorrowSystem {
+    constructor(library, userManager) {
+        this.library = library;
+        this.userManager = userManager;
+        this.borrowedBooks = {}; // { userId: [isbn1, isbn2] }
+    }
+
+    borrowBook(userId, isbn) {
+        const user = this.userManager.getUserById(userId);
+        const book = this.library.getBookByISBN(isbn);
+
+        if (!user) {
+            throw new Error('User does not exist.');
+        }
+        if (!book) {
+            throw new Error('Book does not exist.');
+        }
+        if (book.copies === 0) {
+            throw new Error('There are no more copies available for this book.');
+        }
+
+        if (!this.borrowedBooks[userId]) {
+            this.borrowedBooks[userId] = [];
+        }
+
+        this.borrowedBooks[userId].push(isbn);
+        book.copies -= 1;
+    }
+}
+
+module.exports = BorrowSystem;
+
+```
+
+### **Refactor Phase - Improvement of borrowBook()**
+In borrow.js, let's improve it to ensure accurate validations.
+
+```javascript
+
+ borrowBook(userId, isbn) {
+        const user = this.userManager.getUserById(userId);
+        const book = this.library.getBookByISBN(isbn);
+
+        if (!user) {
+            throw new Error('User does not exist.');
+        }
+        if (!book) {
+            throw new Error('Book does not exist.');
+        }
+        if (book.copies === 0) {
+            throw new Error('There are no more copies available for this book.');
+        }
+
+        if (!this.borrowedBooks[userId]) {
+            this.borrowedBooks[userId] = [];
+        }
+
+        if (this.borrowedBooks[userId].includes(isbn)) {
+            throw new Error('User has already borrowed this book.');
+        }
+    
+        this.borrowedBooks[userId].push(isbn);
+        book.copies -= 1;
+    }
+    
+```
+
 
 
 ## How to run the tests?
